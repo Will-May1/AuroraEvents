@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top site-navbar">
     <div class="container">
-        <a class="navbar-brand brand" href="aurora.php">
+        <a class="navbar-brand brand" href="index.php">
             <i class="bi bi-moon-stars-fill brand-icon"></i>
             AURORA
             <span class="brand-subtitle">CIVILIZATIONS</span>
@@ -16,7 +16,7 @@
         <div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
                 <li class="nav-item">
-                    <a class="nav-link active" href="aurora.php">Home</a>
+                    <a class="nav-link active" href="index.php">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#events">Events</a>

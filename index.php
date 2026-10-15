@@ -327,7 +327,7 @@ $events = [
 
 <footer class="site-footer">
     <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
-        <a class="navbar-brand brand" href="aurora.php">
+        <a class="navbar-brand brand" href="index.php">
             <i class="bi bi-moon-stars-fill brand-icon"></i>
             AURORA
             <span class="brand-subtitle">CIVILIZATIONS</span>
