@@ -13,14 +13,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Structural required array matching the keys sent by your HTML form fields
     $required = [
         'discord_username', 'minecraft_ign', 'age_group',
-        'microphone', 'streaming', 'about_you', 'event_goals',
+        'microphone', 'streamingyn', 'about_you', 'event_goals',
         'past_experience', 'character_idea', 'problem_solving',
         'resource_scenario', 'information_scenario', 'friend_scenario',
         'confirm_truth'
     ];
 
     // Standard fallback string for event naming metrics
-    $event_name = "Celestial Civilizations";
+    $event_name = "Aurora Civilisations";
 
     // Validate presence of required data fields
     foreach ($required as $field) {
@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Event Application | Celestial Civilizations</title>
+  <title>Event Application | Aurora Civilizations</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   <style>
@@ -107,34 +107,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       --gold: #D38D19;
       --pale-gold: #FFC96D;
       --ink: #1b1022;
-      --muted: #bdb0c8;
       --panel: rgba(39, 20, 51, .91);
+      --space: #10091d;
+    --space-light: #1a102b;
+    --purple-dark: #501C6C;
+    --purple-light: #B95CEB;
+    --orange-dark: #9C420D;
+    --gold-light: #FFC96D;
+    --text: #f6efff;
+    --muted: #c4b6d8;
+    --border: rgba(185, 92, 235, 0.25);
     }
     * { box-sizing: border-box; }
-    body {
-      min-height: 100vh;
-      color: #fff8ff;
-      background:
-        radial-gradient(ellipse at 12% 5%, rgba(125,44,168,.30), transparent 35%),
-        radial-gradient(ellipse at 90% 45%, rgba(156,66,13,.20), transparent 30%),
-        linear-gradient(145deg, #140b1b, #24112f 55%, #160e1c);
-      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-    }
-    .navbar {
-      background: rgba(20, 10, 28, .92);
-      border-bottom: 1px solid rgba(255,201,109,.25);
-      backdrop-filter: blur(12px);
-    }
+    
+    .brand-subtitle {
+        display: block;
+        margin-left: 37px;
+        margin-top: 5px;
+        font: 0.55rem "Inter", sans-serif;
+        letter-spacing: 3px;
+        color: var(--muted);
+}
     .brand-mark { color: var(--pale-gold); }
-    .navbar-brand { color: #fff !important; font-weight: 800; letter-spacing: .04em; }
     .nav-link { color: #e8d9ef !important; }
     .nav-link:hover { color: var(--pale-gold) !important; }
     .hero { padding: 3.4rem 0 2rem; text-align: center; }
-    .eyebrow {
+    .eyebrow1 {
       display: inline-flex; gap: .5rem; align-items: center;
       color: var(--pale-gold); text-transform: uppercase;
       letter-spacing: .18em; font-size: .75rem; font-weight: 800;
     }
+    .eyebrow {
+    display: inline-block;
+    margin-bottom: 18px;
+    color: var(--gold-light);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
     .hero h1 {
       font-weight: 900; letter-spacing: -.04em;
       font-size: clamp(2.2rem, 5vw, 4rem);
@@ -225,41 +235,716 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       .progress-area { padding: 1rem .75rem; }
       .form-actions { flex-direction: column-reverse; }
       .form-actions .btn { width: 100%; }
+      .application-page {
+    min-height: 75vh;
+    padding: 70px 0 100px;
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(125, 44, 168, 0.18), transparent 55%),
+        var(--space);
+}
+.application-page .section-heading {
+    margin-bottom: 35px;
+}
     }
   </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg sticky-top">
-  <div class="container">
-    <a class="navbar-brand" href="home"><i class="bi bi-stars brand-mark me-2"></i>CELESTIAL <span class="d-none d-sm-inline">CIVILIZATIONS</span></a>
-    <button class="navbar-toggler border-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
-      <i class="bi bi-list text-light fs-3"></i>
-    </button>
-    <div class="collapse navbar-collapse" id="mainNav">
-      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
-        <li class="nav-item"><a class="nav-link" href="home">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="events">Events</a></li>
-        <li class="nav-item"><a class="nav-link active" aria-current="page" href="apply">Apply</a></li>
-        <li class="nav-item"><a class="nav-link" href="rules">Rules</a></li>
-        <li class="nav-item ms-lg-2"><a class="btn btn-sm btn-outline-light rounded-pill px-3" href="account"><i class="bi bi-person-circle me-1"></i>Account</a></li>
-      </ul>
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top site-navbar">
+    <div class="container">
+        <a class="navbar-brand brand" href="home">
+            <i class="bi bi-moon-stars-fill brand-icon"></i>
+            AURORA
+            <span class="brand-subtitle">CIVILIZATIONS</span>
+        </a>
+
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#mainNav"
+                aria-controls="mainNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+                <li class="nav-item">
+                    <a class="nav-link active" href="https://discord.gg/Te8NknMpv8y">Discord</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="home#events">Events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="home#about">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="home#faq">FAQ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-celestial mt-2 mt-lg-0"
+                       href="login">
+                        <i class="bi bi-person-circle me-1"></i> Account
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-gold mt-2 mt-lg-0"
+                       href="apply">
+                        <i class="bi bi-stars me-1"></i> Apply Now
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
 </nav>
+<style>
+h1, h2, h3, .brand {
+    font-family: "Cinzel", serif;
+}
 
-<header class="hero container">
-  <div class="eyebrow"><i class="bi bi-moon-stars-fill"></i> Your story starts here</div>
-  <h1>Event <span>Application</span></h1>
-  <p>Every civilization begins with its people. Tell us who you are, how you play, and what kind of story you want to create.</p>
-</header>
+.brand {
+    color: var(--gold-light) !important;
+    letter-spacing: 3px;
+    font-size: 1.1rem;
+    line-height: 1.1;
+}
 
-<main class="container px-3">
+.brand-icon {
+    color: var(--purple-light);
+    margin-right: 8px;
+    font-size: 1.5rem;
+}
+
+.brand-subtitle {
+    display: block;
+    margin-left: 37px;
+    margin-top: 5px;
+    font: 0.55rem "Inter", sans-serif;
+    letter-spacing: 3px;
+    color: var(--muted);
+}
+
+.btn-outline-celestial {
+    color: var(--text);
+    border: 1px solid var(--purple-light);
+    background: rgba(80, 28, 108, 0.2);
+}
+
+.btn-outline-celestial:hover {
+    color: white;
+    background: var(--purple-dark);
+    border-color: var(--purple-light);
+}
+
+.btn-gold {
+    color: #211128;
+    background: linear-gradient(110deg, var(--gold-light), var(--gold));
+    border: 1px solid var(--gold-light);
+}
+
+.btn-gold:hover,
+.btn-gold:focus {
+    color: #211128;
+    background: var(--gold-light);
+    border-color: var(--gold-light);
+    box-shadow: 0 5px 25px rgba(211, 141, 25, 0.25);
+}
+
+.site-navbar {
+    min-height: 76px;
+    background: rgba(16, 9, 29, 0.96);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+@media (max-width: 575.98px) {
+    .site-navbar {
+        min-height: 70px;
+    }
+}
+:root {
+    --space: #10091d;
+    --space-light: #1a102b;
+    --purple-dark: #501C6C;
+    --purple: #7D2CA8;
+    --purple-light: #B95CEB;
+    --orange-dark: #9C420D;
+    --gold: #D38D19;
+    --gold-light: #FFC96D;
+    --text: #f6efff;
+    --muted: #c4b6d8;
+    --border: rgba(185, 92, 235, 0.25);
+}
+
+* {box-sizing: border-box;}
+html {scroll-behavior: smooth;scroll-padding-top: 95px;}
+body {margin: 0;padding-top: 76px;background: var(--space);color: var(--text);font-family: "Inter", sans-serif;line-height: 1.7;}
+a {text-decoration: none;}
+h2 {font-size: clamp(2rem, 4vw, 3rem);margin-bottom: 1rem;}
+p {color: var(--muted);}
+h1, h2, h3, .brand {font-family: "Cinzel", serif;}
+.brand {color: var(--gold-light) !important;letter-spacing: 3px;font-size: 1.1rem;line-height: 1.1;}
+.brand-icon {color: var(--purple-light);margin-right: 8px;font-size: 1.5rem;}
+.brand-subtitle {display: block;margin-left: 37px;margin-top: 5px;font: 0.55rem "Inter", sans-serif;letter-spacing: 3px;color: var(--muted);}
+.btn {border-radius: 9px;font-weight: 600;padding: 11px 20px;transition: transform 0.2s ease, box-shadow 0.2s ease;}
+.btn:hover {transform: translateY(-2px);}
+.btn-gold {color: #211128;background: linear-gradient(110deg, var(--gold-light), var(--gold));border: 1px solid var(--gold-light);}
+.btn-gold:hover,.btn-gold:focus {color: #211128;background: var(--gold-light);border-color: var(--gold-light);box-shadow: 0 5px 25px rgba(211, 141, 25, 0.25);}
+.btn-outline-celestial {color: var(--text);border: 1px solid var(--purple-light);background: rgba(80, 28, 108, 0.2);}
+.btn-outline-celestial:hover {color: white;background: var(--purple-dark);border-color: var(--purple-light);}
+.btn-disabled {color: #a99ab8;background: #261b32;border: 1px solid #44334f;}
+.hero {position: relative;isolation: isolate;overflow: hidden;min-height: 570px;display: flex;align-items: center;background:radial-gradient(ellipse at 80% 40%, rgba(125, 44, 168, 0.4), transparent 45%),radial-gradient(ellipse at 10% 90%, rgba(156, 66, 13, 0.22), transparent 45%),linear-gradient(120deg, #10091d, #21102f 65%, #120b22);}
+.hero::before,.hero::after {position: absolute;content: "";pointer-events: none;z-index: -1;}
+.hero::before {width: 500px;height: 500px;right: -100px;top: -120px;border: 1px solid rgba(185, 92, 235, 0.14);border-radius: 50%;box-shadow:0 0 0 50px rgba(185, 92, 235, 0.025),0 0 0 100px rgba(185, 92, 235, 0.025);}
+.hero::after {width: 100%;height: 1px;bottom: 0;background: linear-gradient(90deg, transparent, var(--purple), var(--gold), transparent);}
+.hero-content {
+    padding-top: 65px;
+    padding-bottom: 75px;
+}
+
+.eyebrow {
+    display: inline-block;
+    margin-bottom: 18px;
+    color: var(--gold-light);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.hero h1 {
+    font-size: clamp(2.7rem, 5.6vw, 5rem);
+    line-height: 1.12;
+    letter-spacing: -1px;
+    font-weight: 700;
+}
+
+.gradient-text {
+    background: linear-gradient(100deg, var(--gold-light), var(--purple-light));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-description {
+    max-width: 540px;
+    font-size: 1.05rem;
+    margin-top: 22px;
+}
+
+.hero-note {
+    color: #bca9d0;
+    font-size: 0.85rem;
+}
+
+.cosmic-art {
+    height: 380px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.planet {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    color: var(--gold-light);
+    font-size: 5rem;
+    background:
+        radial-gradient(circle at 30% 25%, #b95ceb, #501c6c 45%, #1a102b 75%);
+    border: 1px solid rgba(255, 201, 109, 0.7);
+    box-shadow:
+        0 0 45px rgba(185, 92, 235, 0.45),
+        0 0 100px rgba(125, 44, 168, 0.2);
+}
+
+.orbit {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border: 1px solid rgba(255, 201, 109, 0.4);
+    border-radius: 50%;
+    transform: rotate(-35deg) scaleY(0.42);
+}
+
+.orbit-two {
+    width: 390px;
+    height: 390px;
+    transform: rotate(40deg) scaleY(0.45);
+    border-color: rgba(185, 92, 235, 0.4);
+}
+
+.cosmic-moon {
+    position: absolute;
+    top: 20px;
+    right: 10px;
+    font-size: 3rem;
+    color: var(--purple-light);
+    filter: drop-shadow(0 0 12px rgba(185, 92, 235, 0.6));
+}
+
+.floating-star {
+    position: absolute;
+    color: var(--gold-light);
+}
+
+.star-one {
+    top: 55px;
+    left: 65px;
+    font-size: 1.4rem;
+}
+
+.star-two {
+    bottom: 65px;
+    right: 40px;
+    font-size: 1.8rem;
+}
+
+.star-three {
+    bottom: 95px;
+    left: 20px;
+    font-size: 0.9rem;
+}
+
+.cosmic-caption {
+    position: absolute;
+    bottom: 0;
+    font-size: 0.7rem;
+    letter-spacing: 5px;
+    color: var(--muted);
+}
+.stats-section {
+    padding: 38px 0;
+    background: #160e24;
+    border-bottom: 1px solid var(--border);
+}
+
+.stats-section h3 {
+    margin: 12px 0 2px;
+    font-size: 1.05rem;
+}
+
+.stats-section p {
+    margin: 0;
+    font-size: 0.85rem;
+}
+
+.stat-icon {
+    font-size: 2rem;
+    color: var(--purple-light);
+}
+.section-padding {
+    padding: 100px 0;
+}
+
+.section-heading {
+    margin-bottom: 45px;
+}
+
+.section-heading h2 {
+    margin-bottom: 12px;
+}
+
+.section-heading p {
+    max-width: 600px;
+    margin: 0 auto;
+}
+.event-filters .filter-btn {
+    border: 1px solid var(--border);
+    background: var(--space-light);
+    color: var(--muted);
+    border-radius: 50px;
+    padding: 8px 19px;
+    transition: 0.2s ease;
+}
+
+.event-filters .filter-btn:hover,
+.event-filters .filter-btn.active {
+    color: var(--gold-light);
+    border-color: var(--purple-light);
+    background: var(--purple-dark);
+}
+.event-card {
+    padding: 28px;
+    border-radius: 16px;
+    background:
+        linear-gradient(145deg, rgba(38, 23, 55, 0.95), rgba(20, 12, 33, 0.98));
+    border: 1px solid var(--border);
+    transition: transform 0.25s ease, border-color 0.25s ease,
+                box-shadow 0.25s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(185, 92, 235, 0.7);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+.event-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.event-icon {
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    color: var(--gold-light);
+    font-size: 1.8rem;
+    border-radius: 14px;
+    background: rgba(125, 44, 168, 0.23);
+    border: 1px solid var(--border);
+}
+
+.event-status {
+    padding: 5px 11px;
+    border-radius: 50px;
+    font-size: 0.73rem;
+    font-weight: 700;
+}
+
+.status-open {
+    color: #c5f7d3;
+    background: rgba(52, 143, 85, 0.18);
+    border: 1px solid rgba(98, 208, 137, 0.3);
+}
+
+.status-soon {
+    color: var(--gold-light);
+    background: rgba(211, 141, 25, 0.13);
+    border: 1px solid rgba(211, 141, 25, 0.3);
+}
+
+.event-category {
+    color: var(--purple-light);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.event-card h3 {
+    font-size: 1.35rem;
+    margin: 10px 0;
+}
+
+.event-description {
+    font-size: 0.9rem;
+    min-height: 100px;
+}
+
+.event-details {
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+    margin-top: 20px;
+    display: grid;
+    gap: 9px;
+    color: #d1c2e2;
+    font-size: 0.82rem;
+}
+
+.event-details i {
+    color: var(--gold-light);
+    margin-right: 8px;
+}
+.about-section {
+    background:
+        radial-gradient(ellipse at 5% 50%, rgba(80, 28, 108, 0.3), transparent 45%),
+        #160e24;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.about-art {
+    min-height: 340px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 20px;
+    background:
+        radial-gradient(circle at 50% 45%, rgba(185, 92, 235, 0.25), transparent 45%),
+        linear-gradient(135deg, #241139, #10091d);
+    border: 1px solid var(--border);
+}
+
+.about-orbit {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    border: 1px solid rgba(255, 201, 109, 0.5);
+    border-radius: 50%;
+    box-shadow: 0 0 50px rgba(185, 92, 235, 0.1);
+}
+
+.about-star {
+    position: absolute;
+    color: var(--gold-light);
+    font-size: 6rem;
+    filter: drop-shadow(0 0 25px rgba(255, 201, 109, 0.35));
+}
+
+.about-moon {
+    position: absolute;
+    color: var(--purple-light);
+    font-size: 3rem;
+    top: 35px;
+    right: 45px;
+}
+
+.about-message {
+    position: absolute;
+    bottom: 35px;
+    display: flex;
+    gap: 20px;
+    color: var(--gold-light);
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+}
+.faq-container {
+    max-width: 850px;
+}
+
+.accordion-celestial .accordion-item {
+    color: var(--text);
+    background: var(--space-light);
+    border: 1px solid var(--border);
+    margin-bottom: 12px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.accordion-celestial .accordion-button {
+    color: var(--text);
+    background: var(--space-light);
+    font-weight: 600;
+    box-shadow: none;
+}
+
+.accordion-celestial .accordion-button::after {
+    filter: invert(1);
+}
+
+.accordion-celestial .accordion-button:not(.collapsed) {
+    color: var(--gold-light);
+    background: #29183b;
+}
+
+.accordion-celestial .accordion-body {
+    color: var(--muted);
+}
+
+
+
+.banner-stars {
+    color: var(--gold-light);
+    font-size: 2rem;
+}
+.application-page {
+    min-height: 75vh;
+    padding: 70px 0 100px;
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(125, 44, 168, 0.18), transparent 55%),
+        var(--space);
+}
+
+.application-page .section-heading {
+    margin-bottom: 35px;
+}
+
+.application-panel {
+    max-width: 760px;
+    padding: clamp(22px, 5vw, 48px);
+    background: linear-gradient(145deg, #21142f, #160e24);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.form-section-title {
+    color: var(--gold-light);
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-bottom: 25px;
+}
+
+.form-section-title i {
+    margin-right: 8px;
+    color: var(--purple-light);
+}
+
+.form-label {
+    color: var(--text);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.form-control,
+.form-select {
+    color: var(--text);
+    background-color: #120c20;
+    border: 1px solid #503660;
+    border-radius: 9px;
+    padding: 12px 14px;
+}
+
+.form-control::placeholder {
+    color: #91819f;
+}
+
+.form-control:focus,
+.form-select:focus {
+    color: white;
+    background-color: #120c20;
+    border-color: var(--purple-light);
+    box-shadow: 0 0 0 0.2rem rgba(185, 92, 235, 0.15);
+}
+
+.form-select option {
+    color: white;
+    background: var(--space-light);
+}
+
+.form-text {
+    color: #b3a2c4;
+    font-size: 0.78rem;
+}
+
+
+.form-check-input {
+    background-color: #120c20;
+    border-color: var(--purple-light);
+}
+
+.form-check-input:checked {
+    background-color: var(--purple);
+    border-color: var(--purple-light);
+}
+
+.form-check-label {
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+.alert-danger {
+    color: #ffe2e2;
+    background: #401c2a;
+    border-color: #793349;
+}
+.site-footer {
+    padding: 35px 0 18px;
+    background: #0c0715;
+}
+
+.site-footer p {
+    font-size: 0.9rem;
+}
+
+.footer-link {
+    color: var(--gold-light);
+}
+
+.footer-link:hover {
+    color: white;
+}
+
+.footer-bottom {
+    margin-top: 25px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+    color: #9381a5;
+}
+@media (max-width: 991.98px) {
+
+    .hero {
+        min-height: auto;
+    }
+
+    .hero-content {
+        padding-top: 65px;
+        padding-bottom: 65px;
+    }
+
+    .section-padding {
+        padding: 70px 0;
+    }
+}
+
+@media (max-width: 575.98px) {
+    body {
+        padding-top: 70px;
+    }
+
+
+    .hero h1 {
+        font-size: 2.55rem;
+    }
+
+    .hero-description {
+        font-size: 0.95rem;
+    }
+
+    .btn-lg {
+        font-size: 0.9rem;
+    }
+
+    .event-card {
+        padding: 22px;
+    }
+
+    .event-description {
+        min-height: 0;
+    }
+
+    .about-art {
+        min-height: 280px;
+    }
+
+    .about-message {
+        gap: 12px;
+        letter-spacing: 2px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
+</style>
+<main class="application-page">
+    <div class="container">
+        <div class="section-heading text-center">
+            <span class="eyebrow">
+                <i class="bi bi-stars me-1"></i> YOUR JOURNEY BEGINS
+            </span>
+            <h1>Event <span class="gradient-text">Application</span></h1>
+            <p>Tell us about yourself and the role you want to play.</p>
+        </div>
+    </div>
   <div class="application-shell">
     <?php if ($submitted): ?>
       <div class="p-4 p-md-5 text-center">
         <div class="display-4 mb-3" style="color:var(--pale-gold)"><i class="bi bi-check-circle-fill"></i></div>
         <h2 class="fw-bold">Application complete!</h2>
-        <p class="text-light-emphasis">Your answers passed the demo form checks. Connect this page to a database or application system to actually deliver your application to the event team.</p>
+        <p class="text-light-emphasis">Once the application deadline ends, you will be contacted via the Aurora Events Discord Server.</p>
         <a class="btn btn-gold rounded-pill px-4 mt-2" href="home">Return home <i class="bi bi-arrow-right ms-1"></i></a>
       </div>
     <?php else: ?>
@@ -305,7 +990,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <div class="question-card">
             <div class="question-label">Age group <span class="required-star">*</span></div>
             <div class="row g-2">
-              <?php foreach (['under12' => '>12', '12-14' => '12-14', '15-17' => '15-17', '18plus' => '18+'] as $value => $label): ?>
+              <?php foreach (['under12' => '<12', '12-14' => '12-14', '15-17' => '15-17', '18plus' => '18+'] as $value => $label): ?>
                 <div class="col-6 col-md-3">
                   <div class="form-check h-100">
                     <input class="form-check-input" type="radio" name="age_group" id="age_<?php echo htmlspecialchars($value, ENT_QUOTES); ?>" value="<?php echo htmlspecialchars($value, ENT_QUOTES); ?>" required>
@@ -441,7 +1126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </div>
 </main>
 <footer>
-  <div><i class="bi bi-stars me-1"></i> Celestial Civilizations</div>
+  <div><i class="bi bi-stars me-1"></i> Aurora Civilizations</div>
   <div class="mt-1">Forge alliances. Create stories. Leave your mark among the stars.</div>
 </footer>
 
