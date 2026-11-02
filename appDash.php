@@ -239,23 +239,27 @@ h1, h2, h3, .brand {
 <main class="container-fluid px-lg-4 py-4 py-lg-5">
     <div class="row g-4">
         <aside class="col-12 col-lg-3 col-xl-2">
-            <div class="panel p-3">
-                <div class="eyebrow mb-1">Review queue</div>
-                <h2 class="h5 mb-3">Pending applications <span class="badge badge-pending rounded-pill"><?= count($pendingApps) ?></span></h2>
-                <?php if (!$pendingApps): ?>
-                    <p class="muted small mb-0">No pending applications right now.</p>
-                <?php else: ?>
-                    <div class="d-grid gap-1">
-                        <?php foreach ($pendingApps as $pending): ?>
-                            <a class="pending-link <?= ($app && (int)$app['applicationID'] === (int)$pending['applicationID']) ? 'active' : '' ?>" href="?id=<?= (int)$pending['applicationID'] ?>">
-                                <div class="fw-semibold"><?= h($pending['mcIGN']) ?></div>
-                                <div class="small muted"><?= h($pending['eventName']) ?> · <?= h($pending['discUser']) ?></div>
-                            </a>
-                        <?php endforeach; ?>
-                    </div>
-                <?php endif; ?>
+    <div class="panel p-3">
+        <div class="eyebrow mb-1">Review queue</div>
+        <h2 class="h5 mb-3">Pending applications <span class="badge badge-pending rounded-pill"><?= count($pendingApps) ?></span></h2>
+        <?php if (!$pendingApps): ?>
+            <p class="muted small mb-0">No pending applications right now.</p>
+        <?php else: ?>
+            <div class="d-grid gap-1">
+                <?php foreach ($pendingApps as $pending): ?>
+                    <a class="pending-link <?= ($app && (int)$app['applicationID'] === (int)$pending['applicationID']) ? 'active' : '' ?>" href="?id=<?= (int)$pending['applicationID'] ?>">
+                        <!-- Added custom wrapper helper styles for secure text wrapping boundary parsing -->
+                        <div class="text-break-container" style="word-break: break-word; overflow-wrap: break-word; white-space: normal;">
+                            <div class="fw-semibold"><?= h($pending['discUser']) ?></div>
+                            <div class="small muted"><?= h($pending['eventName']) ?> · <?= h($pending['mcIGN']) ?></div>
+                        </div>
+                    </a>
+                <?php endforeach; ?>
             </div>
-        </aside>
+        <?php endif; ?>
+    </div>
+</aside>
+
 
         <section class="col-12 col-lg-9 col-xl-10">
             <?php if ($notice !== ''): ?><div class="alert alert-success" role="status"><?= h($notice) ?></div><?php endif; ?>

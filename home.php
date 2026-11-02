@@ -65,10 +65,10 @@ try {
         <div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
                 <li class="nav-item">
-                    <a class="nav-link active" href="https://discord.gg/Te8NknMpv8y">Discord</a>
+                    <a class="nav-link active" href="home">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="home">Home</a>
+                    <a class="nav-link" href="https://discord.gg/Te8NknMpv8y">Discord</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="home#events">Events</a>

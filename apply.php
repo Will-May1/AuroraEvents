@@ -80,7 +80,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ':accepted'     => 0 // Applications default to pending review (0) upon submission
             ]);
 
-            $submitted = true;
+            // CHANGE HERE: Check if the row was actually written to the database
+            if ($stmt->rowCount() > 0) {
+                
+                // DOUBLE CHECK: Perform an explicit SELECT to verify the data is physically there
+                $verifySql = "SELECT COUNT(*) FROM tblApps WHERE discUser = :discUser AND mcIGN = :mcIGN";
+                $verifyStmt = $pdo->prepare($verifySql);
+                $verifyStmt->execute([
+                    ':discUser' => trim((string)$_POST['discord_username']),
+                    ':mcIGN'    => trim((string)$_POST['minecraft_ign'])
+                ]);
+                
+                if ($verifyStmt->fetchColumn() > 0) {
+                    // Data is confirmed inside the database. It is now safe to mark as submitted.
+                    $submitted = true;
+                } else {
+                    // The row count lied or data wasn't committed properly
+                    $errors[] = 'database_error';
+                    error_log("Verification failed: Insert returned true but SELECT could not find the application.");
+                }
+            } else {
+                $errors[] = 'database_error';
+            }
 
         } catch (PDOException $e) {
             // Logs data parsing complications system side safely
@@ -234,8 +255,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       .step-label { font-size: .65rem; }
       .progress-area { padding: 1rem .75rem; }
       .form-actions { flex-direction: column-reverse; }
-      .form-actions .btn { width: 100%; }
-      .application-page {
+      .form-actions .btn { width: 100%; }}
+        .application-page {
     min-height: 75vh;
     padding: 70px 0 100px;
     background:
@@ -245,7 +266,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 .application-page .section-heading {
     margin-bottom: 35px;
 }
-    }
+    
   </style>
 </head>
 <body>
@@ -267,10 +288,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
                 <li class="nav-item">
-                    <a class="nav-link active" href="https://discord.gg/Te8NknMpv8y">Discord</a>
+                    <a class="nav-link active" href="home">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="home">Home</a>
+                    <a class="nav-link" href="https://discord.gg/Te8NknMpv8y">Discord</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="home#events">Events</a>
@@ -979,12 +1000,12 @@ h1, h2, h3, .brand {font-family: "Cinzel", serif;}
 
           <div class="question-card">
             <label class="form-label" for="discord_username">Discord username <span class="required-star">*</span></label>
-            <input class="form-control" id="discord_username" name="discord_username" type="text" maxlength="80" placeholder="e.g. username" required>
+            <input class="form-control counter-input" id="discord_username" name="discord_username" type="text" maxlength="80" placeholder="e.g. username" required>
             <div class="invalid-feedback">Enter your Discord username.</div>
           </div>
           <div class="question-card">
             <label class="form-label" for="minecraft_ign">Minecraft IGN <span class="required-star">*</span></label>
-            <input class="form-control" id="minecraft_ign" name="minecraft_ign" type="text" maxlength="32" placeholder="Your Minecraft username" required>
+            <input class="form-control counter-input" id="minecraft_ign" name="minecraft_ign" type="text" maxlength="32" placeholder="Your Minecraft username" required>
             <div class="invalid-feedback">Enter your Minecraft username.</div>
           </div>
           <div class="question-card">
@@ -1040,7 +1061,7 @@ h1, h2, h3, .brand {font-family: "Cinzel", serif;}
               </div>
             </div>
             <label class="form-label" for="streaming_platform">If yes, where will you stream or upload it?</label>
-            <input class="form-control" id="streaming_platform" name="streaming" type="text" maxlength="200" placeholder="e.g. Twitch, YouTube, or a channel link">
+            <input class="form-control counter-input" id="streaming_platform" name="streaming" type="text" maxlength="200" placeholder="e.g. Twitch, YouTube, or a channel link">
             <div class="form-text">If you are not streaming or recording, you can leave this blank.</div>
             <div class="invalid-feedback d-block" data-radio-feedback="streaming" hidden>Choose yes or no.</div>
           </div>
@@ -1057,27 +1078,27 @@ h1, h2, h3, .brand {font-family: "Cinzel", serif;}
 
           <div class="question-card">
             <label class="form-label" for="about_you">Tell us a little about yourself. <span class="required-star">*</span></label>
-            <textarea class="form-control" id="about_you" name="about_you" rows="3" minlength="10" maxlength="2000" placeholder="What should the event team know about you?" required></textarea>
+            <textarea class="form-control counter-input" id="about_you" name="about_you" rows="3" minlength="10" maxlength="2000" placeholder="What should the event team know about you?" required></textarea>
             <div class="form-text">A few sentences is a good start.</div><div class="invalid-feedback">Please write a little about yourself.</div>
           </div>
           <div class="question-card">
             <label class="form-label" for="event_goals">What are your goals for this event? <span class="required-star">*</span></label>
-            <textarea class="form-control" id="event_goals" name="event_goals" rows="3" minlength="10" maxlength="2000" placeholder="What would make this event memorable for you?" required></textarea>
+            <textarea class="form-control counter-input" id="event_goals" name="event_goals" rows="3" minlength="10" maxlength="2000" placeholder="What would make this event memorable for you?" required></textarea>
             <div class="invalid-feedback">Tell us what you hope to get out of the event.</div>
           </div>
           <div class="question-card">
             <label class="form-label" for="past_experience">Describe your past experiences with Minecraft events, roleplay events, and storytelling. Please be specific with your answer. <span class="required-star">*</span></label>
-            <textarea class="form-control" id="past_experience" name="past_experience" rows="5" minlength="20" maxlength="4000" placeholder="Mention events you have taken part in, roles you played, stories you helped create, or what you learned. If you are new, explain what interests you." required></textarea>
+            <textarea class="form-control counter-input" id="past_experience" name="past_experience" rows="5" minlength="20" maxlength="4000" placeholder="Mention events you have taken part in, roles you played, stories you helped create, or what you learned. If you are new, explain what interests you." required></textarea>
             <div class="invalid-feedback">Please give a specific answer, or explain if you are new to these events.</div>
           </div>
           <div class="question-card">
             <label class="form-label" for="character_idea">Describe a character you might make for this event. Please be specific with your answer. <span class="required-star">*</span></label>
-            <textarea class="form-control" id="character_idea" name="character_idea" rows="5" minlength="20" maxlength="4000" placeholder="Consider their background, personality, motivations, strengths, flaws, and how they might develop." required></textarea>
+            <textarea class="form-control counter-input" id="character_idea" name="character_idea" rows="5" minlength="20" maxlength="4000" placeholder="Consider their background, personality, motivations, strengths, flaws, and how they might develop." required></textarea>
             <div class="invalid-feedback">Describe your character idea in more detail.</div>
           </div>
           <div class="question-card">
             <label class="form-label" for="problem_solving">Tell us about a time when something went wrong for you. How did you deal with that? <span class="required-star">*</span></label>
-            <textarea class="form-control" id="problem_solving" name="problem_solving" rows="4" minlength="15" maxlength="3000" placeholder="What happened, what did you do, and what did you learn?" required></textarea>
+            <textarea class="form-control counter-input" id="problem_solving" name="problem_solving" rows="4" minlength="15" maxlength="3000" placeholder="What happened, what did you do, and what did you learn?" required></textarea>
             <div class="invalid-feedback">Describe the situation and how you responded.</div>
           </div>
           <div class="form-actions">
@@ -1094,19 +1115,19 @@ h1, h2, h3, .brand {font-family: "Cinzel", serif;}
           <div class="question-card">
             <div class="scenario-number mb-2">SCENARIO 01</div>
             <label class="form-label" for="resource_scenario">You desperately need a certain resource, but the area you occupy has none of it. Another group has an abundance of it, and they have refused all trade offers. What do you do? <span class="required-star">*</span></label>
-            <textarea class="form-control" id="resource_scenario" name="resource_scenario" rows="5" minlength="20" maxlength="4000" placeholder="Explain your options, risks, and why you would choose your approach." required></textarea>
+            <textarea class="form-control counter-input" id="resource_scenario" name="resource_scenario" rows="5" minlength="20" maxlength="4000" placeholder="Explain your options, risks, and why you would choose your approach." required></textarea>
             <div class="invalid-feedback">Explain how you would approach this situation.</div>
           </div>
           <div class="question-card">
             <div class="scenario-number mb-2">SCENARIO 02</div>
             <label class="form-label" for="information_scenario">You come across some information that could ensure safety for your group, but revealing it to anyone would also ensure the safety of your enemies. No one else knows this information. What do you do? What are your priorities? <span class="required-star">*</span></label>
-            <textarea class="form-control" id="information_scenario" name="information_scenario" rows="5" minlength="20" maxlength="4000" placeholder="Who would you tell, if anyone? How would you weigh competing risks?" required></textarea>
+            <textarea class="form-control counter-input" id="information_scenario" name="information_scenario" rows="5" minlength="20" maxlength="4000" placeholder="Who would you tell, if anyone? How would you weigh competing risks?" required></textarea>
             <div class="invalid-feedback">Explain your decision and your priorities.</div>
           </div>
           <div class="question-card">
             <div class="scenario-number mb-2">SCENARIO 03</div>
             <label class="form-label" for="friend_scenario">You overhear a dangerous group of players talking about murdering a friend of yours. Later in the session, you get a chance to have a one-on-one with this person. You know that telling them they are in danger could potentially put your own life at risk; however, keeping this information to yourself would put them at the mercy of the group. What do you do? <span class="required-star">*</span></label>
-            <textarea class="form-control" id="friend_scenario" name="friend_scenario" rows="5" minlength="20" maxlength="4000" placeholder="Consider trust, safety, consequences, and how you would handle the situation in-character." required></textarea>
+            <textarea class="form-control counter-input" id="friend_scenario" name="friend_scenario" rows="5" minlength="20" maxlength="4000" placeholder="Consider trust, safety, consequences, and how you would handle the situation in-character." required></textarea>
             <div class="invalid-feedback">Explain what you would do and why.</div>
           </div>
           <div class="question-card">
@@ -1133,6 +1154,9 @@ h1, h2, h3, .brand {font-family: "Cinzel", serif;}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 (() => {
+  // =========================================================================
+  // 1. INITIALIZE VARIABLES FIRST (Fixes the Continue Button Freeze)
+  // =========================================================================
   const form = document.getElementById('applicationForm');
   if (!form) return;
 
@@ -1140,9 +1164,106 @@ h1, h2, h3, .brand {font-family: "Cinzel", serif;}
   const stepButtons = [...document.querySelectorAll('[data-step-button]')];
   const progressBar = document.getElementById('progressBar');
   const progress = document.querySelector('.progress[role="progressbar"]');
+  const counterInputs = document.querySelectorAll('.counter-input');
+  
   let currentStep = 0;
   let highestUnlocked = 0;
+  const STORAGE_KEY = 'aurora_application_draft';
 
+  // =========================================================================
+  // 2. DYNAMIC CHARACTER COUNTERS ENGINE
+  // =========================================================================
+  counterInputs.forEach(input => {
+    const max = input.getAttribute('maxlength');
+    if (!max) return;
+
+    // Create the muted text node dynamically directly below the input element box
+    const counterLabel = document.createElement('small');
+    counterLabel.className = 'd-block text-end mt-1 text-opacity-75';
+    counterLabel.style.fontSize = '0.78rem';
+    counterLabel.style.color = '#a998b5'; 
+    counterLabel.textContent = `0 / ${max}`;
+    input.parentNode.appendChild(counterLabel);
+
+    // Create immediate listener evaluation loops
+    const updateCounter = () => {
+      const len = input.value.length;
+      counterLabel.textContent = `${len} / ${max}`;
+      
+      // Highlight the counter text color in gold if the user hits the maximum limit bound
+      if (len >= max) {
+        counterLabel.style.color = '#FFC96D'; 
+      } else {
+        counterLabel.style.color = '#a998b5';
+      }
+    };
+
+    input.addEventListener('input', updateCounter);
+    updateCounter(); // Run once instantly on page load initialization
+  });
+
+  // =========================================================================
+  // 3. AUTOMATIC FORM DRAFT PERSISTENCE ENGINE
+  // =========================================================================
+  function saveFormDraft() {
+    const draftData = {};
+    
+    // Grab all standard text inputs and textareas
+    form.querySelectorAll('input[type="text"], textarea').forEach(input => {
+      if (input.name) draftData[input.name] = input.value;
+    });
+
+    // Grab all checked radio picks
+    form.querySelectorAll('input[type="radio"]:checked').forEach(radio => {
+      draftData[radio.name] = radio.value;
+    });
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(draftData));
+  }
+
+  function loadFormDraft() {
+    const savedData = localStorage.getItem(STORAGE_KEY);
+    if (!savedData) return; 
+
+    try {
+      const draftData = JSON.parse(savedData);
+
+      // Restore text inputs and textareas
+      Object.keys(draftData).forEach(fieldName => {
+        const input = form.querySelector(`input[name="${fieldName}"][type="text"], textarea[name="${fieldName}"]`);
+        if (input) {
+          input.value = draftData[fieldName];
+          // Fire an event to make sure character counters update instantly on load
+          input.dispatchEvent(new Event('input')); 
+        }
+      });
+
+      // Restore radio button selections
+      Object.keys(draftData).forEach(fieldName => {
+        const value = draftData[fieldName];
+        const radio = form.querySelector(`input[name="${fieldName}"][type="radio"][value="${value}"]`);
+        if (radio) {
+          radio.checked = true;
+          radio.dispatchEvent(new Event('change'));
+        }
+      });
+
+      // Special allowance: Let returning users click back into later tabs freely
+      highestUnlocked = 3;
+      stepButtons.forEach((btn) => { btn.disabled = false; });
+
+    } catch (e) {
+      console.error("Error restoring form draft:", e);
+    }
+  }
+
+  // Listen to typing or clicking anywhere on the form to auto-save in real-time
+  form.addEventListener('input', saveFormDraft);
+  form.addEventListener('change', saveFormDraft);
+
+  // =========================================================================
+  // 4. WIZARD STEP NAVIGATION FUNCTIONS
+  // =========================================================================
   function showStep(index) {
     if (index > highestUnlocked || index < 0 || index >= steps.length) return;
     currentStep = index;
@@ -1219,6 +1340,9 @@ h1, h2, h3, .brand {font-family: "Cinzel", serif;}
     return valid;
   }
 
+  // =========================================================================
+  // 5. EVENT LISTENERS SETUP
+  // =========================================================================
   document.querySelectorAll('.next-btn').forEach(button => {
     button.addEventListener('click', () => {
       if (!validateStep(currentStep)) return;
@@ -1242,7 +1366,7 @@ h1, h2, h3, .brand {font-family: "Cinzel", serif;}
       event.preventDefault();
       return;
     }
-    // Earlier steps were validated before being unlocked, but validate all again for safety.
+    // Validate all for safety before wiping the draft box storage keys
     for (let i = 0; i < steps.length; i++) {
       if (!validateStep(i)) {
         event.preventDefault();
@@ -1259,9 +1383,17 @@ h1, h2, h3, .brand {font-family: "Cinzel", serif;}
       if (radio.name === 'age_group') document.getElementById('ageFeedback').hidden = true;
     });
   });
+
   document.getElementById('confirm_truth')?.addEventListener('change', event => {
     document.getElementById('confirmFeedback').hidden = event.target.checked;
   });
+
+  // Run the data restoration script instantly upon script compilation completion
+  loadFormDraft();
+  <?php if ($submitted): ?>
+    // The server has verified the data is in the database. Now it is safe to clear the draft.
+    localStorage.removeItem(STORAGE_KEY);
+  <?php endif; ?>
 })();
 </script>
 </body>
